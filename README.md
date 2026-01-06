@@ -105,10 +105,3 @@ FRONTEND_URL=http://localhost:5173
 VITE_API_URL=http://localhost:5000/api
 VITE_STRIPE_PUBLISHABLE_KEY=pk_test_...
 ```
-
-## Documentation
-
-- [Stripe API Docs](https://docs.stripe.com/api)
-- [Stripe Webhooks](https://docs.stripe.com/webhooks)
-- [React Router](https://reactrouter.com/)
-- [Express.js](https://expressjs.com/)
