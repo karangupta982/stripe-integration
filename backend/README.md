@@ -1,51 +1,61 @@
-# Backend API - Stripe Checkout Integration
+# Backend API - Stripe Integration
 
-Express.js API server handling payment processing, order management, and Stripe integration for the e-commerce application.
+Express.js server handling payments, orders, and Stripe webhooks.
 
-## Overview
+## Quick Start
 
-This backend service provides REST API endpoints for order creation, payment session management, and Stripe webhook handling. It integrates with MongoDB for persistent data storage and Stripe for payment processing.
-
-## Prerequisites
-
-- Node.js v14 or higher
-- MongoDB (local or remote)
-- Stripe account with API keys
-
-## Installation
-
-1. Install dependencies:
 ```bash
 npm install
-```
-
-2. Configure environment variables:
-```bash
-# Copy template
 cp .env.example .env
-
-# Edit with your actual values
+# Edit .env with your values
+npm start
 ```
 
-## Configuration
-
-### Environment Variables
+## Environment Variables
 
 ```env
-# Server
 PORT=5000
 NODE_ENV=development
-
-# MongoDB
 MONGODB_URI=mongodb://localhost:27017/stripe_checkout
-
-# Stripe
 STRIPE_SECRET_KEY=sk_test_...
 STRIPE_PUBLISHABLE_KEY=pk_test_...
 STRIPE_WEBHOOK_SECRET=whsec_...
-
-# Frontend
 FRONTEND_URL=http://localhost:5173
+```
+
+## API Endpoints
+
+### Orders
+- `POST /api/orders` - Create order
+- `GET /api/orders` - Get orders (with filters)
+- `GET /api/orders/:id` - Get single order
+- `PUT /api/orders/:id` - Update order status
+
+### Payments
+- `POST /api/payments/create-checkout-session` - Create Stripe checkout
+- `POST /api/payments/verify` - Verify payment
+
+### Webhooks
+- `POST /api/webhooks/stripe` - Stripe webhook handler
+
+## Webhook Testing
+
+```bash
+stripe listen --forward-to localhost:5000/api/webhooks/stripe
+stripe trigger checkout.session.completed
+```
+
+## Project Structure
+
+```
+src/
+├── config/          # Database & Stripe setup
+├── controllers/     # Request handlers
+├── models/          # MongoDB schemas
+├── routes/          # API routes
+├── services/        # Stripe service
+├── webhooks/        # Webhook handlers
+└── server.js        # Express app
 ```
 
 ## Running the Server
@@ -314,13 +324,6 @@ For production deployment:
 6. Configure rate limiting
 7. Set up monitoring and logging
 
-## Support
-
-Refer to Stripe documentation for API details:
-- https://docs.stripe.com/api
-- https://docs.stripe.com/webhooks
-npm start
-```
 
 The server will start on http://localhost:5000
 
